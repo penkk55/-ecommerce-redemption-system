@@ -1,8 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PrismaService } from 'prisma/prisma.service';
-import e from 'express';
 
 @Injectable()
 export class CustomersService {

@@ -6,7 +6,6 @@ import { CustomersModule } from './customers/customers.module';
 import { ProductsModule } from './products/products.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from '../prisma/prisma.module';
-import { PrismaService } from 'prisma/prisma.service';
 
 @Module({
   imports: [
