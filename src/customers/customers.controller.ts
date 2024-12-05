@@ -1,34 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Headers,
+  BadRequestException,
+} from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { Endpoint } from 'src/constants/endpoint';
 
-@Controller('customers')
+@Controller(Endpoint.ApiV1)
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
-  @Post()
-  create(@Body() createCustomerDto: CreateCustomerDto) {
-    return this.customersService.create(createCustomerDto);
+  @Get('/balance')
+  findOneBallance(@Headers('email') email: string) {
+    if (!email) {
+      throw new BadRequestException('email is required');
+    }
+    return this.customersService.findOneBallance(email);
   }
 
-  @Get()
-  findAll() {
-    return this.customersService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.customersService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {
-    return this.customersService.update(+id, updateCustomerDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.customersService.remove(+id);
+  @Get('/codes')
+  findCodes(@Headers('email') email: string) {
+    return this.customersService.findCodes(email);
   }
 }

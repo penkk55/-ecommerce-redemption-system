@@ -71,7 +71,7 @@ model OrderItem {
 model Customer {
   id        String   @id @default(cuid()) @map("id")
   name      String   @map("name")
-  email     String   @map("email")
+  email     String   @unique @map("email")
   balance   Decimal  @map("balance")
   createdAt DateTime @map("created_at")
   updatedAt DateTime @map("updated_at")

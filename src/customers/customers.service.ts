@@ -1,26 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { PrismaService } from 'prisma/prisma.service';
+import e from 'express';
 
 @Injectable()
 export class CustomersService {
-  create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
-    return `This action returns all customers`;
+  async findOneBallance(email: string) {
+    try {
+      const customer = await this.prisma.customer.findUnique({
+        where: {
+          email: email,
+        },
+      });
+      return {
+        email: customer.email,
+        balance: customer.balance,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException({
+        message: 'Internal server error occurred while fetching products.',
+        statusCode: 500,
+        error: error,
+      });
+    }
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
-  }
-
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  async findCodes(email: string) {
+    try {
+      const orders = await this.prisma.order.findMany({
+        where: {
+          customer: {
+            email: email,
+          },
+        },
+      });
+      return orders;
+    } catch (error) {
+      throw new InternalServerErrorException({
+        message: 'Internal server error occurred while fetching products.',
+        statusCode: 500,
+        error: error,
+      });
+    }
   }
 }

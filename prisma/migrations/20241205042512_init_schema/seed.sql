@@ -4,7 +4,14 @@ INSERT INTO products (id, name, price, created_at, updated_at)
 VALUES
   (uuid_generate_v4(), 'Product 1', 100.00, NOW(), NOW()),
   (uuid_generate_v4(), 'Product 2', 200.00, NOW(), NOW()),
-  (uuid_generate_v4(), 'Product 3', 300.00, NOW(), NOW());
+  (uuid_generate_v4(), 'Product 3', 300.00, NOW(), NOW()),
+   (uuid_generate_v4(), 'Product 4', 400.00, NOW(), NOW()),
+  (uuid_generate_v4(), 'Product 5', 500.00, NOW(), NOW()),
+   (uuid_generate_v4(), 'Product 6', 600.00, NOW(), NOW()),
+  (uuid_generate_v4(), 'Product 7', 700.00, NOW(), NOW()),
+   (uuid_generate_v4(), 'Product 8', 800.00, NOW(), NOW()),
+  (uuid_generate_v4(), 'Product 9', 900.00, NOW(), NOW()),
+  (uuid_generate_v4(), 'Product 10', 1000.00, NOW(), NOW());
 
 INSERT INTO stocks (id, product_id, code, quantity, status, created_at, updated_at)
 VALUES
