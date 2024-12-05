@@ -23,7 +23,7 @@
     "prisma:generate": "npx prisma generate",
     "migrate:dev": "prisma migrate dev --preview-feature",
     "migrate:prod": "prisma migrate deploy",
-    "start:migrate:prod": "npm run migrate:prod && npm run start:prod"
+    "start:migrate:prod": "npm run prisma:generate && npm run migrate:prod && npm run start:prod"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
