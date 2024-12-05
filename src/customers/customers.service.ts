@@ -13,6 +13,7 @@ export class CustomersService {
         },
       });
       return {
+        id: customer.id,
         email: customer.email,
         balance: customer.balance,
       };
