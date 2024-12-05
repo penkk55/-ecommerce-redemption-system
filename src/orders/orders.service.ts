@@ -32,9 +32,6 @@ export class OrdersService {
         throw new BadRequestException('Insufficient balance');
       }
 
-      products.map((item) => {
-        console.log('item', item);
-      });
       // get product price
       const productPrices = await this.prisma.product.findMany({
         where: {
@@ -110,7 +107,9 @@ export class OrdersService {
 
               // Ensure the product is found and calculate the total
               if (!product) {
-                throw new Error(`Product not found for ID: ${item.productId}`);
+                throw new BadRequestException(
+                  `Product not found for ID: ${item.productId}`,
+                );
               }
 
               const productTotal = item.quantity * product.price.toNumber(); // Use product price
@@ -153,20 +152,36 @@ export class OrdersService {
   }
 
   async getOrders() {
-    const orders = await this.prisma.order.findMany({
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-    return orders;
+    try {
+      const orders = await this.prisma.order.findMany({
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+      return orders;
+    } catch (error) {
+      throw new InternalServerErrorException({
+        message: 'Internal server error occurred while retrieving orders.',
+        statusCode: 500,
+        error: error,
+      });
+    }
   }
 
   async findOne(id: string) {
-    const order = await this.prisma.order.findUnique({
-      where: {
-        id,
-      },
-    });
-    return order;
+    try {
+      const order = await this.prisma.order.findUnique({
+        where: {
+          id,
+        },
+      });
+      return order;
+    } catch (error) {
+      throw new InternalServerErrorException({
+        message: 'Internal server error occurred while retrieving order.',
+        statusCode: 500,
+        error: error,
+      });
+    }
   }
 }
