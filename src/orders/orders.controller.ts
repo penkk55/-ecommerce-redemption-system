@@ -21,15 +21,19 @@ export class OrdersController {
     return this.ordersService.createOrder(createOrderDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.ordersService.findAll();
-  // }
+  @Get()
+  findAll() {
+    console.log('11');
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.ordersService.findOne(+id);
-  // }
+    return this.ordersService.getOrders();
+  }
+
+  @Get('/:orderId')
+  findOne(@Param('orderId') id: string) {
+    console.log('22');
+
+    return this.ordersService.findOne(id);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {

@@ -1,30 +1,3 @@
-// import { Injectable } from '@nestjs/common';
-// import { CreateOrderDto } from './dto/create-order.dto';
-// import { UpdateOrderDto } from './dto/update-order.dto';
-
-// @Injectable()
-// export class OrdersService {
-//   create(createOrderDto: CreateOrderDto) {
-//     return 'This action adds a new orderdd';
-//   }
-
-//   findAll() {
-//     return `This action returns all orders`;
-//   }
-
-//   findOne(id: number) {
-//     return `This action returns a #${id} order`;
-//   }
-
-//   update(id: number, updateOrderDto: UpdateOrderDto) {
-//     return `This action updates a #${id} order`;
-//   }
-
-//   remove(id: number) {
-//     return `This action removes a #${id} order`;
-//   }
-// }
-
 import {
   BadRequestException,
   ImATeapotException,
@@ -70,7 +43,6 @@ export class OrdersService {
           },
         },
       });
-      console.log('productPrices', productPrices);
 
       // Check product availability and update stock
       for (const item of products) {
@@ -87,8 +59,6 @@ export class OrdersService {
           }
           return acc;
         }, 0);
-        console.log('totalProductPrice', totalProductPrice);
-        console.log('total', total);
 
         if (totalProductPrice !== total) {
           throw new BadRequestException('Total price does not match');
@@ -180,5 +150,23 @@ export class OrdersService {
         error: 'Internal Server Error',
       });
     }
+  }
+
+  async getOrders() {
+    const orders = await this.prisma.order.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    return orders;
+  }
+
+  async findOne(id: string) {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+    });
+    return order;
   }
 }
