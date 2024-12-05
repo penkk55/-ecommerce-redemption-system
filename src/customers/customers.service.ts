@@ -19,7 +19,7 @@ export class CustomersService {
       };
     } catch (error) {
       throw new InternalServerErrorException({
-        message: 'Internal server error occurred while fetching products.',
+        message: 'Internal server error occurred while fetching customer.',
         statusCode: 500,
         error: error,
       });
