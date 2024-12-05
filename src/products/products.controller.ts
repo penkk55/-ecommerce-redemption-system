@@ -1,34 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { Endpoint } from 'src/constants/endpoint';
 
-@Controller('products')
+@Controller(Endpoint.ApiV1 + 'products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
-  }
-
   @Get()
-  findAll() {
-    return this.productsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+  findAll(@Query('offset') offset = 1, @Query('limit') limit = 10) {
+    offset = parseInt(offset as any);
+    limit = parseInt(limit as any);
+    return this.productsService.findAll(offset, limit);
   }
 }
