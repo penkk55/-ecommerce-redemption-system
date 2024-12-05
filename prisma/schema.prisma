@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id        String      @id @default(cuid()) @map("id")
+  name      String      @map("name")
+  price     Decimal     @map("price")
+  createdAt DateTime    @map("created_at")
+  updatedAt DateTime    @map("updated_at")
+  OrderItem OrderItem[]
+  Stock     Stock[]
+
+  @@map("products")
+}
+
+model Stock {
+  id        String      @id @default(cuid()) @map("id")
+  productId String      @map("product_id")
+  code      String      @unique @map("code")
+  quantity  Int         @default(0) @map("quantity")
+  status    String      @map("status")
+  createdAt DateTime    @map("created_at")
+  updatedAt DateTime    @map("updated_at")
+  OrderItem OrderItem[]
+  // product   Product     @relation("ProductStock", fields: [productId], references: [id]) // Relationship to Product
+  product   Product     @relation(fields: [productId], references: [id]) // Relation to Product
+
+  @@map("stocks")
+}
+
+model Order {
+  id         String      @id @default(cuid()) @map("id")
+  customerId String      @map("customer_id")
+  total      Decimal     @map("total")
+  status     String      @map("status")
+  createdAt  DateTime    @map("created_at")
+  updatedAt  DateTime    @map("updated_at")
+  customer   Customer    @relation(fields: [customerId], references: [id])
+  orderItems OrderItem[] // Relation to OrderItem (one-to-many)
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid()) @map("id")
+  orderId   String  @map("order_id")
+  productId String  @map("product_id")
+  stockId   String? @map("stock_id")
+  quantity  Int     @map("quantity")
+  total     Decimal @map("total")
+
+  order   Order   @relation(fields: [orderId], references: [id]) // Relation to Order
+  product Product @relation(fields: [productId], references: [id]) // Relation to Product
+  stock   Stock?  @relation(fields: [stockId], references: [id]) // Relation to Stock
+
+  @@map("order_items")
+}
+
+model Customer {
+  id        String   @id @default(cuid()) @map("id")
+  name      String   @map("name")
+  email     String   @map("email")
+  balance   Decimal  @map("balance")
+  createdAt DateTime @map("created_at")
+  updatedAt DateTime @map("updated_at")
+  Order     Order[]
+
+  @@map("customers")
+}
+
+enum StockStatus {
+  IN_STOCK @map("IN_STOCK")
+  RESERVED @map("RESERVED")
+  SOLD     @map("SOLD")
+}
+
+enum OrderStatus {
+  PROCESSING @map("PROCESSING")
+  COMPLETED  @map("COMPLETED")
+  FAILED     @map("FAILED")
+}
