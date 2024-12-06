@@ -67,7 +67,7 @@ http://13.236.135.130:8000/
 
 # use case
 
-![alt text](<Screenshot 2567-12-06 at 08.16.49-1.png>)
+![alt text](<Screenshot 2567-12-06 at 08.16.49.png>)
 
 # documentation usecase, High level architecture, Infrastructure, ERD
 
