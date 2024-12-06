@@ -51,6 +51,29 @@ $ npm run start:prod
 
 ```
 
+# DEMO
+
+`13.236.135.130:8000`
+
+# ER
+
+/Users/pongparn/Downloads/_E-Commerce Redemption System .png
+
+# high level design
+
+/Users/pongparn/Desktop/Screenshot 2567-12-06 at 08.16.44.png
+
+# Infrastructure design
+
+/Users/pongparn/Desktop/Screenshot 2567-12-06 at 08.16.50.png
+
+# use case
+
+/Users/pongparn/Desktop/Screenshot 2567-12-06 at 08.16.49.png
+
+# documentation usecase, High level architecture, Infrastructure, ERD
+
+https://drive.google.com/file/d/1kclo0Y-sPSMhAauq7jJ6xsAFDayY5bNo/view?usp=sharing
 
 ## License
 
